@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>23 – Realistic Scene</title>
+
+<style>
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+}
+
+/* المشهد */
+.scene{
+    width:100%;
+    height:100%;
+    perspective:1800px;
+}
+
+/* الطبقة */
+.card{
+    width:102%;
+    height:102%;
+    position:relative;
+    transform-style:preserve-3d;
+    transition:transform 0.2s ease-out;
+}
+
+/* الصورة */
+.card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* إضاءة الشمعة (مركزة جدًا) */
+.candle-glow{
+    position:absolute;
+    width:70px;
+    height:90px;
+    background:radial-gradient(
+        circle,
+        rgba(255,210,120,0.85),
+        rgba(255,180,60,0.35),
+        rgba(255,160,40,0.0) 70%
+    );
+    top:44.5%;
+    left:44.2%;
+    transform:translate(-20%,-50%);
+    animation:flicker 0.18s infinite alternate;
+    mix-blend-mode:screen;
+    pointer-events:none;
+}
+
+/* وميض خفيف */
+@keyframes flicker{
+    from{opacity:0.85; transform:translate(-50%,-50%) scale(1);}
+    to{opacity:1; transform:translate(-50%,-50%) scale(1.08);}
+}
+
+/* hotspots */
+.hotspot{
+    position:absolute;
+    width:130px;
+    height:100px;
+    cursor:pointer;
+}
+
+/* الإطارات */
+.frame-left{ left:7%; bottom:17%; }
+.frame-right{ right:7%; bottom:17%; }
+
+/* الدب */
+.teddy{
+    position:absolute;
+    width:210px;
+    height:300px;
+    right:22%;
+    bottom:14%;
+    cursor:pointer;
+}
+
+/* popup */
+.popup{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#ff7abf;
+    color:#000;
+    padding:10px 26px;
+    border-radius:14px;
+    font-family:monospace;
+    display:none;
+    box-shadow:0 0 18px rgba(255,122,191,0.8);
+}
+</style>
+</head>
+
+<body>
+
+<div class="scene">
+    <div class="card" id="card">
+
+        <img src="pic/scene.png">
+
+        <!-- إضاءة الشمعة -->
+        <div class="candle-glow"></div>
+
+        <!-- hotspots -->
+        <div class="hotspot frame-left" onclick="showPopup('pic/img1.jpg')"></div>
+        <div class="hotspot frame-right" onclick="showPopup('pic/img4.jpeg')"></div>
+
+        <!-- الدب -->
+        <div class="teddy" onclick="goNext()"></div>
+
+    </div>
+</div>
+
+<div class="popup" id="popup">
+    <img id="popupImg" src="" style="max-width:300px; border-radius:10px;">
+</div>
+
+<script>
+const card = document.getElementById("card");
+
+/* حركة خفيفة جدًا (micro movement) */
+    document.addEventListener("mousemove", (e) => {
+        const maxRotate = 3;
+    const x = (window.innerWidth / 2 - e.clientX) / 170;
+    const y = (window.innerHeight / 2 - e.clientY) / 160;
+
+    card.style.transform = `
+        rotateY(${x}deg)
+        rotateX(${y}deg)
+        translateZ(8px)
+    `;
+});
+
+/* popup */
+const popup = document.getElementById("popup");
+const popupImg = document.getElementById("popupImg");
+
+function showPopup(imgName){
+    popupImg.src = imgName;
+    popup.style.display = "block";
+
+    setTimeout(() => {
+        popup.style.display = "none";
+    }, 1500);
+}
+
+
+/* انتقال */
+function goNext(){
+    window.location.href="indxe2.html";
+}
+</script>
+
+</body>
+</html>

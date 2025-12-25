@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Console 23</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    background:#05010a;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:monospace;
+}
+
+.console{
+    width:90%;
+    max-width:900px;
+    min-height:350px;
+    background:#0b0314;
+    border:3px solid #ff7abf;
+    box-shadow:0 0 35px #ff7abf;
+    padding:30px;
+    color:#ffb3da;
+    font-size:22px;
+}
+
+#text{
+    white-space:pre-line;
+}
+
+.cursor{
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    0%,50%,100%{opacity:1;}
+    25%,75%{opacity:0;}
+}
+
+.buttons{
+    margin-top:40px;
+    display:flex;
+    gap:20px;
+}
+
+button{
+    padding:14px 60px;
+    font-size:22px;
+    background:transparent;
+    color:#ff7abf;
+    border:2px solid #ff7abf;
+    cursor:pointer;
+    display:none;
+}
+
+button:hover{
+    background:#ff7abf;
+    color:#0b0314;
+}
+
+#watchBtn{
+    border-color:#9cff7a;
+    color:#9cff7a;
+}
+
+#watchBtn:hover{
+    background:#9cff7a;
+    color:#0b0314;
+}
+</style>
+</head>
+
+<body>
+
+<div class="console">
+    <div id="text"></div><span class="cursor">|</span>
+
+    <div class="buttons">
+        <button id="btn" onclick="go()">23-12</button>
+        <button id="watchBtn" onclick="watch()">watch</button>
+    </div>
+</div>
+
+<!-- صوت الكتابة -->
+<audio id="typingSound" src="typing.mp3" loop></audio>
+
+<script>
+const lines = [
+    "hello my Dodi",
+    "...",
+    "",
+    "i am so lucky for found u",
+    "...",
+    "",
+    "thx for all",
+    "...",
+    "",
+    "First, watch the video"
+];
+
+let line = 0;
+let char = 0;
+const speed = 65;
+
+const textBox = document.getElementById("text");
+const btn = document.getElementById("btn");
+const watchBtn = document.getElementById("watchBtn");
+const sound = document.getElementById("typingSound");
+
+sound.volume = 0.4;
+sound.play();
+
+function typeEffect(){
+    if(line < lines.length){
+        if(char < lines[line].length){
+            textBox.innerHTML += lines[line].charAt(char);
+            char++;
+            setTimeout(typeEffect, speed);
+        }else{
+            textBox.innerHTML += "\n";
+            char = 0;
+            line++;
+            setTimeout(typeEffect, 500);
+        }
+    }else{
+        sound.pause();
+        sound.currentTime = 0;
+        btn.style.display = "inline-block";
+        watchBtn.style.display = "inline-block";
+    }
+}
+
+typeEffect();
+
+function go(){
+    window.location.href = "page2.html";
+}
+
+
+function watch(){
+    window.open(
+        "https://drive.google.com/file/d/1oOzH3f0HUeEz9iqTAquBp3P0qhAaevah/view?usp=drive_link",
+        "_blank"
+    );
+}
+
+
+</script>
+
+</body>
+</html>
